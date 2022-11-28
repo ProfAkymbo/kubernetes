@@ -1,4 +1,6 @@
 # kubernetes
+It is an open source platform used to deploy, manage and maintain a group of containers. it is an Ubuntu based platform.
+It is used most commonly together with Docker for better control of containerized applications.
 
 ![laravel-logo](/mini-project/img/laravel-page)
 
@@ -14,137 +16,111 @@
 
 ### SETUP
 
-###### Install LAMP Stack on Debian 11
-- Virtual machine running Debian 11
-- Git, Apache, Wget, Curl
-- Php 8.1 and it's dependencies
-- Mysql/MariaDb Database
-- Composer
+### step 1
 
-### Prerequisites to Install LAMP
-- Root access to your server or a sudo user
-- Domain pointed to your server's IP
-
-### 1. Update the Package Installer
-
-Make sure to switch to `root user`. We will be installing updating the apt repository before installing any package
+We will be installing add updating the apt repository before installing any package
 
 ```
-sudo su
-apt update
+sudo apt-get update
 ```
 
-### 2. Install the following packages (Apache2, Wget, Git, Curl)
+### step 2
 
-Now that our installer is up to date, we can now install our web server Apache and the following packages on the server
+Now that our installer is up to date, next is to use following command to install packages using https
 
 ```php
-apt install -y wget git apache2 unzip curl
+sudo apt-get install -y apt-transport-https
 ```
 
-### 3. Install PHP
+### step 3
 
-###### Add the SURY PPA for PHP 8.1
+Next is to install Docker with the following command
 
+```
+sudo apt install docker.io
+```
+
+Now you can start and enable docker with the following command
 ```php
-apt -y install lsb-release apt-transport-https ca-certificates
-wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+sudo systemctl start docker
+sudo systemctl enable docker
 ```
 
-Now you can add the PPA to the server packages using the following command
-```php
-echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/php.list
-```
+### step 4
 
-Update the packages and install PHP 8.1
-```php
-apt update
-apt install php libapache2-mod-php php8.1-mysql php8.1-common php8.1-mysql php8.1-xml php8.1-xmlrpc php8.1-curl php8.1-gd php8.1-imagick php8.1-cli php8.1-dev php8.1-imap php8.1-mbstring php8.1-opcache php8.1-soap php8.1-zip php8.1-intl -y
-```
-
-Once PHP is installed you can check the version using the following command.
-```php
-php -v
-```
-
-
-### 4. Install mySQL
-
-The next step is to install our database server on our virtual machine. Follow steps below to Install mySQL 8.0 on your Debian 11 Linux system
-
-Add mySQL Dev apt repository. MySQL 8.0 packages are available on official mySQL Dev apt repository
-```
-apt update
-wget https://dev.mysql.com/get/mysql-apt-config_0.8.22-1_all.deb
-```
-
-> Note: If you get any error in this next 👇🏾 step, keep retrying the command until it's all good -- could be network issues 
-
-Install the release package
-```
-apt update
-apt install ./mysql-apt-config_0.8.22-1_all.deb
-```
-
-<span>Confirm addition of mySQL 8.0 repository as default when prompted</span>
-
-
-![mysql-prompt-image](/mini-project/img/mysql-prompt.png)
-
-Use the down arrow key to choose OK, then press `Tab` and hit `Enter` (as shown in the image above) - Would be done twice
-
-> Note: If you get any error in this next 👇🏾 step, keep retrying the command until it's all good -- could be network issues 
-
-Now you can install mySQL
-```
-apt update
-apt install mysql-server
-```
-<samp>When prompted, enter your root password and choose legacy authentication</samp>
-
-we can now exit mySQL using the command `exit;`
-
-To verify that the mySQL server is running, type:
-```
-service mysql status
-```
-
-The output should show that the service is enabled and running
-
-
-### 5. Create a Database
-Login to mySQL  by executing the following command into mySQL:
-```
-mysql -u root -p
-```
-
-Replace the “your password” with the password you had set up during installation. Once we are logged in, we can now create a database using the following command:
+After installing Docker with the above step,
+we will be using the curl commands for url installation syntax
 
 ```
-CREATE DATABASE yourdatabase;
-```
-> replace `yourdatabase` with your desired database name. Once the database has been created, we can now exit mySQL using the command `exit;`. Also remember to add the semi-colons.
-
-
-
-### 6. Clone the project repo
-
-Switch to apache's document root
-```php
-cd /var/www/
+sudo apt-get install curl
 ```
 
-Create a directory to house your laravel project, and for the purpose of this writing I will call mine `altschool`
-```php
-mkdir altschool
+### step 5
+Next is to download the keys to kubernetes urls using the following command.
+```
+sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg| sudo apt-key add
 ```
 
-Switch to the directory created in the previous step and clone the [laravel project](https://github.com/f1amy/laravel-realworld-example-app.git) from github
+### step 4. 
 
-```php
-cd altschool
-git clone https://github.com/f1amy/laravel-realworld-example-app.git
+To add the repository in certain location,
+we shall be changing permission of the file with
 ```
+sudo chmod 777 /etc/apt/sources.list.d/
+```
+
+> Note: we need to cd into /etc/apt/sources.list.d/
+> then do nano kubernetes.list to enter the following url, and save the file in the location   
+
+```
+deb https://apt.kubernetes.io/ kubernetes-xenial main
+```
+
+<span>Confirm to see that the above url is saved in that location by doing</span>
+```
+cat /etc/apt/sources.list.d/kubernetes.list
+```
+
+> Note: you should get the following output 👇🏾 
+> deb https://apt.kubernetes.io/ kubernetes-xenial main 
+
+Now let's check for any update available with 
+
+```
+sudo apt-get update
+```
+
+### step 5
+Let's install kubernetes components with
+
+```
+sudo apt-get install -y kubelet kubeadm kubectl kubernetes-cni
+```
+
+> Note that this is gonna take few minutes.
+> Next we have to initialize the master node using the swapoff command to disable swaping on other devices with the following  
+
+```
+sudo swapoff -a
+```
+
+### step 6
+
+Next is to start the initiallization
+```
+sudo kubeadm init
+```
+
+To start using the cluster, we need to run the following 
+
+```
+mkdir -p $HOME/.kube
+```
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+```
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+```
+
 
 Rename the cloned git repo to whatever you wish to call your project, for my use case I will name it `laravel`
 ```php
