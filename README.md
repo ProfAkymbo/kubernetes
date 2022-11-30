@@ -1,4 +1,4 @@
-# kubernetes
+# kubernetes simple steps setup
 It is an open source platform used to deploy, manage and maintain a group of containers. it is an Ubuntu based platform.
 It is used most commonly together with Docker for better control of containerized applications.
 
@@ -14,7 +14,7 @@ It is used most commonly together with Docker for better control of containerize
 
 ### step 1
 
-We will be installing add updating the apt repository before installing any package
+We will be installing and updating the apt repository before installing any package
 
 ```
 sudo apt-get update
@@ -79,7 +79,7 @@ cat /etc/apt/sources.list.d/kubernetes.list
 ```
 
 > Note: you should get the following output 👇🏾   
-  deb https://apt.kubernetes.io/ kubernetes-xenial main 
+  'deb https://apt.kubernetes.io/ kubernetes-xenial main' 
 
 Now let's check for any update available with 
 
@@ -113,24 +113,26 @@ To start using the cluster, we need to run the following
 ```
 mkdir -p $HOME/.kube
 ```
+```
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 ```
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
 ### step 9
-Deploy pods using the following command:
+we can now deploy pods using the following command:
 
-'''
-$ $ sudo kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/ master/Documentation/kube-flannel.yml
-
-$ sudo kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/ master/Documentation/k8s-manifests/kube-flannel-rbac.yml
-'''
+```
+sudo kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/ master/Documentation/kube-flannel.yml
+```
+```
+sudo kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/ master/Documentation/k8s-manifests/kube-flannel-rbac.yml
+```
 
 ### step 10
 To see all pods deployed, use the following command:
-'''
-$ sudo kubectl get pods –all-namespaces
-'''
+```
+sudo kubectl get pods –all-namespaces
+```
 
 
