@@ -2,8 +2,6 @@
 It is an open source platform used to deploy, manage and maintain a group of containers. it is an Ubuntu based platform.
 It is used most commonly together with Docker for better control of containerized applications.
 
-![laravel-logo](/mini-project/img/laravel-page)
-
 # Prerequisites
 - I assume you know how to deploy a virtual machine 🖥
 - basic knowledge of the linux file system | ownership | permissions 🐧
@@ -138,25 +136,6 @@ Run the following command to edit the `web.php` file in the routes directory
 nano /var/www/altschool/laravel/routes/web.php
 ```
 
-The code block that we want to alter in the file should look similar to what we have below
-
-```php
-<?php
-
-/*Route::get('/', function () {
-    return view('welcome');
-});*/
-```
-
-When you are done editing the file it should now look like this 👇🏾
-
-```php
-<?php
-
-Route::get('/', function () {
-    return view('welcome');
-});
-```
 
 
 ### 7. Create and edit the `.env` file
@@ -176,77 +155,3 @@ nano .env
 
 `Note`: Configure your `.env` file just as it is in the output below, only make changes to the `DB_DATABASE` and `DB_PASSWORD` lines
 
-```php
-APP_NAME="your app name" (call it anything you wish)
-APP_URL=your machine's IP addr eg. (192.168.10.22)
-DB_CONNECTION=mysql
-DB_HOST=localhost
-DB_PORT=3306
-DB_DATABASE=enter the name of your database here
-DB_USERNAME=root
-DB_PASSWORD=enter your mysql root password here
-```
-After updating your .env file, save the changes and exit
-
-
-### 8. Install Composer
-
-Composer is a dependency manager for PHP used for managing dependencies and libraries required for PHP applications. To install `composer` run the following command: 
-
-```php
-curl -sS https://getcomposer.org/installer | php
-```
-
-You should get the following output
-```php
-All settings correct for using Composer
-Downloading...
-Composer (version 2.4.3) successfully installed to: /root/composer.phar
-Use it: php composer.phar 
-```
-
-Next, move the downloaded binary to the system path and make it executable by everyone
-```php
-mv composer.phar /usr/local/bin/composer
-chmod +x /usr/local/bin/composer
-```
-
-Next, run the following command and enter `yes` to any prompt that appears 
-```php
-composer
-```
-
-You should see the following output 
-
-![laravel-logo](/mini-project/img/composer.png)
-
-
-### 9. Install Composer Dependencies
-
-<span>Whenever you clone a new Laravel project you must now install all of the project dependencies. This is what actually installs Laravel itself, among other necessary packages to get started. When we run composer, it checks the `composer.json` file which is submitted to the github repo and lists all of the composer (PHP) packages that your repo requires. Because these packages are constantly changing, the source code is generally not submitted to github, but instead we let composer handle these updates.</span>
-
-So to install all this source code run composer with the following command and enter `yes` to any prompt that appears
-
-```php
-composer install
-```
-
-Generate the artisan key with the following command 
-> make sure you are in the `/var/www/altschool/laravel` directory before executing any command that starts with `php artisan`
-```php
-php artisan key:generate
-```
-
-Also run the following php artisan commands
-```
-php artisan config:cache
-php artisan migrate:fresh
-php artisan migrate --seed
-```
-
-
-### 10. Configure Apache to Host Laravel 8
-
-Next, you'll need to create an Apache virtual host configuration file to host your Laravel application.
-```php
-nano /e
