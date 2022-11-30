@@ -10,8 +10,6 @@ It is used most commonly together with Docker for better control of containerize
 - How to use linux editor `vim` or at least `nano` 📝
 - a cup of coffee ☕️
 
-<span> If this mini-article doesn't work for you there are video guides below that can help deploy this project here [Helpful Videos](#Helpful-Videos)</span>
-
 ### SETUP
 
 ### step 1
@@ -59,7 +57,7 @@ Next is to download the keys to kubernetes urls using the following command.
 sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg| sudo apt-key add
 ```
 
-### step 4. 
+### step 6 
 
 To add the repository in certain location,
 we shall be changing permission of the file with
@@ -67,10 +65,11 @@ we shall be changing permission of the file with
 sudo chmod 777 /etc/apt/sources.list.d/
 ```
 
-> Note: we need to cd into /etc/apt/sources.list.d/
-> then do nano kubernetes.list to enter the following url, and save the file in the location   
+> Note: we need to add a repo by creating the file /etc/apt/sources.list.d/kubernetes.list to enter the following url, save and close the file in the location   
 
 ```
+nano /etc/apt/sources.list.d/kubernetes.list and enter the following content:
+
 deb https://apt.kubernetes.io/ kubernetes-xenial main
 ```
 
@@ -79,8 +78,8 @@ deb https://apt.kubernetes.io/ kubernetes-xenial main
 cat /etc/apt/sources.list.d/kubernetes.list
 ```
 
-> Note: you should get the following output 👇🏾 
-> deb https://apt.kubernetes.io/ kubernetes-xenial main 
+> Note: you should get the following output 👇🏾   
+  deb https://apt.kubernetes.io/ kubernetes-xenial main 
 
 Now let's check for any update available with 
 
@@ -88,7 +87,7 @@ Now let's check for any update available with
 sudo apt-get update
 ```
 
-### step 5
+### step 7
 Let's install kubernetes components with
 
 ```
@@ -102,9 +101,9 @@ sudo apt-get install -y kubelet kubeadm kubectl kubernetes-cni
 sudo swapoff -a
 ```
 
-### step 6
+### step 8
 
-Next is to start the initiallization
+Next is to Initialize the master node using the following command:
 ```
 sudo kubeadm init
 ```
@@ -119,39 +118,19 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
+### step 9
+Deploy pods using the following command:
 
-Rename the cloned git repo to whatever you wish to call your project, for my use case I will name it `laravel`
-```php
-mv laravel-realworld-example-app laravel
-```
+'''
+$ $ sudo kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/ master/Documentation/kube-flannel.yml
 
-Switch to your projects directory
-```php
-cd laravel 
-```
+$ sudo kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/ master/Documentation/k8s-manifests/kube-flannel-rbac.yml
+'''
 
+### step 10
+To see all pods deployed, use the following command:
+'''
+$ sudo kubectl get pods –all-namespaces
+'''
 
-Run the following command to edit the `web.php` file in the routes directory
-```
-nano /var/www/altschool/laravel/routes/web.php
-```
-
-
-
-### 7. Create and edit the `.env` file
-
-`.env` files are not generally committed to source control for security reasons.
-
-```php
-cp .env.example .env
-```
-
-> This will create a copy of the `.env.example` file in your project and name the copy simply `.env`
-
-Next, edit the `.env` file and define your database:
-```
-nano .env
-```
-
-`Note`: Configure your `.env` file just as it is in the output below, only make changes to the `DB_DATABASE` and `DB_PASSWORD` lines
 
