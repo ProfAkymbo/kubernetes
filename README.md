@@ -3,7 +3,7 @@ It is an open source platform used to deploy, manage and maintain a group of con
 It is used most commonly together with Docker for better control of containerized applications.
 
 # Prerequisites
-- I assume you know how to deploy a virtual machine 🖥
+- I assume you know how to deploy a virtual machine 🖥 Ubuntu preferably.
 - basic knowledge of the linux file system | ownership | permissions 🐧
 - basic knowledge of git 🚦
 - stable internet connection (very important)☁️
