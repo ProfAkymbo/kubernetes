@@ -41,6 +41,13 @@ Now you can start and enable docker with the following command
 sudo systemctl start docker
 sudo systemctl enable docker
 ```
+check that it’s running with this command:
+```
+ sudo systemctl status docker
+ ```
+you should get an output like this:
+
+![An image](markdownsheet.jpg)
 
 ### step 4
 
@@ -59,17 +66,18 @@ sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg| sudo apt-key
 
 ### step 6 
 
-To add the repository in certain location,
-we shall be changing permission of the file with
+let's run the command below to add repository in certain location and change permission of the file
 ```
 sudo chmod 777 /etc/apt/sources.list.d/
 ```
 
-> Note: we need to add a repo by creating the file /etc/apt/sources.list.d/kubernetes.list to enter the following url, save and close the file in the location   
+> do   
 
 ```
-nano /etc/apt/sources.list.d/kubernetes.list and enter the following content:
-
+nano /etc/apt/sources.list.d/kubernetes.list 
+```
+and enter the following content:
+```
 deb https://apt.kubernetes.io/ kubernetes-xenial main
 ```
 
