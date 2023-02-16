@@ -1,4 +1,4 @@
-# kubernetes simple steps setup
+# kubernetes setup using kubeadm
 It is an open source platform used to deploy, manage and maintain a group of containers. it is an Ubuntu based platform.
 It is used most commonly together with Docker for better control of containerized applications.
 
@@ -25,25 +25,28 @@ sudo apt-get update
 Now that our installer is up to date, next is to use following command to install packages using https
 
 ```php
-sudo apt-get install -y apt-transport-https
+ sudo apt-get install apt-transport-https ca-certificates curl gnupg lsb-release
 ```
 
 ### step 3
 
-Next is to install Docker with the following command
+Next is to install Docker with the following commands 
 
 ```
-sudo apt install docker.io
+ sudo mkdir -m 0755 -p /etc/apt/keyrings
+ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 ```
 
-Now you can start and enable docker with the following command
+Now let's set up the repo with the following command
 ```php
-sudo systemctl start docker
-sudo systemctl enable docker
+ echo \
+   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 ```
-check that it’s running with this command:
+Run this command to update the package:
+ 
 ```
- sudo systemctl status docker
+ sudo apt-get update
  ```
 you should get an output like this:
 
