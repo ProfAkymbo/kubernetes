@@ -47,7 +47,7 @@ check that it’s running with this command:
  ```
 you should get an output like this:
 
-![An image](markdownsheet.jpg)
+![image](containerd-status.PNG)
 
 ### step 4
 
@@ -143,4 +143,6 @@ To see all pods deployed, use the following command:
 sudo kubectl get pods –all-namespaces
 ```
 
-
+# Note that i encountered the error bellow 
+![image](kubeadm-init-error.PNG)
+and i debugged it with [This](https://forum.linuxfoundation.org/discussion/862825/kubeadm-init-error-cri-v1-runtime-api-is-not-implemented)
