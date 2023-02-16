@@ -48,28 +48,59 @@ Run this command to update the package:
 ```
  sudo apt-get update
  ```
-you should get an output like this:
+Containerd is an important component for kubernetes to function, run
+'''
+sudo apt install containerd.io
+'''
+Open the /etc/containerd/conf.toml file, and comment out disabled_plugins
+
+'''
+nano /etc/containerd/conf.toml
+'''
+As it's in the output below:
 
 ![image](containerd-status.PNG)
 
 ### step 4
 
 After installing Docker with the above step,
-we will be using the curl commands for url installation syntax
+Let's restart containerd service
 
 ```
-sudo apt-get install curl
+sudo systemctl restart containerd.service
 ```
 
 ### step 5
-Next is to download the keys to kubernetes urls using the following command.
+Next is to install kubernetes using the following commands.
+'''
+ sudo apt-get install -y apt-transport-https ca-certificates curl
+'''
+
+Download the Google Cloud public signing key:
+
 ```
 sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg| sudo apt-key add
 ```
 
 ### step 6 
 
-let's run the command below to add repository in certain location and change permission of the file
+Let's add the Kubernetes APT repository with:
+'''
+echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+'''
+
+### step 7
+Let's install kubernetes components with
+
+```
+sudo apt-get update
+sudo apt-get install -y kubelet kubeadm kubectl kubernetes-cni
+sudo apt-mark hold kubelet kubeadm kubectl
+```
+The hold flag would prevent updates to the kubernetes components installed.
+
+
+
 ```
 sudo chmod 777 /etc/apt/sources.list.d/
 ```
@@ -99,11 +130,6 @@ sudo apt-get update
 ```
 
 ### step 7
-Let's install kubernetes components with
-
-```
-sudo apt-get install -y kubelet kubeadm kubectl kubernetes-cni
-```
 
 > Note that this is gonna take few minutes.
 > Next we have to initialize the master node using the swapoff command to disable swaping on other devices with the following  
