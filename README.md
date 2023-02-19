@@ -100,45 +100,28 @@ sudo apt-mark hold kubelet kubeadm kubectl
 The hold flag would prevent updates to the kubernetes components installed.
 
 
-
+Next is to do 
 ```
-sudo chmod 777 /etc/apt/sources.list.d/
-```
-
-> do   
-
-```
-nano /etc/apt/sources.list.d/kubernetes.list 
-```
-and enter the following content:
-```
-deb https://apt.kubernetes.io/ kubernetes-xenial main
+nano /etc/sysctl.conf
 ```
 
-<span>Confirm to see that the above url is saved in that location by doing</span>
-```
-cat /etc/apt/sources.list.d/kubernetes.list
-```
+> to uncomment the line below  
 
-> Note: you should get the following output 👇🏾   
-  'deb https://apt.kubernetes.io/ kubernetes-xenial main' 
-
-Now let's check for any update available with 
-
-```
-sudo apt-get update
-```
-
-### step 7
-
-> Note that this is gonna take few minutes.
-> Next we have to initialize the master node using the swapoff command to disable swaping on other devices with the following  
-
-```
-sudo swapoff -a
-```
+![image](ipv4-forwarding.PNG)
 
 ### step 8
+
+Followed by this command 
+```
+sysctl -p
+```
+Also run this command which works intelligently to add any dependent modules automatically.
+```
+sudo modprobe br_netfilter
+```
+All the above are run on all the 3 nodes ( one master and 2 worker ).
+
+### step 9
 
 Next is to Initialize the master node using the following command:
 ```
