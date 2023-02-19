@@ -119,7 +119,7 @@ Also run this command which works intelligently to add any dependent modules aut
 ```
 sudo modprobe br_netfilter
 ```
-All the above are run on all the 3 nodes ( one master and 2 worker ).
+All the above are run on all the 3 nodes ( one master and 2 workers ).
 
 ### step 9
 
