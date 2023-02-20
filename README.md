@@ -111,7 +111,7 @@ nano /etc/sysctl.conf
 
 ### step 8
 
-Followed by this command 
+Followed by this command to confirm
 ```
 sysctl -p
 ```
@@ -123,12 +123,12 @@ All the above are run on all the 3 nodes ( one master and 2 workers ).
 
 ### step 9
 
-Next is to Initialize the master node using the following command:
+Next is to Initialize the master node using the following command: NOTE- YOU NEED TO REPLACE YOUR MASTER NODE IP ADDRESS BELOW
 ```
-sudo kubeadm init
+ kubeadm init --pod-network-cidr 10.244.0.0/16 --apiserver-advertise-address=120.31.12.56
 ```
 
-To start using the cluster, we need to run the following 
+To start using the cluster, Exit root user, we need to run the following 
 
 ```
 mkdir -p $HOME/.kube
@@ -155,6 +155,6 @@ To see all pods deployed, use the following command:
 sudo kubectl get pods –all-namespaces
 ```
 
-# Note that i encountered the error bellow 
+# Note that i encountered the error below 
 ![image](kubeadm-init-error.PNG)
 and i debugged it with [This](https://forum.linuxfoundation.org/discussion/862825/kubeadm-init-error-cri-v1-runtime-api-is-not-implemented)
