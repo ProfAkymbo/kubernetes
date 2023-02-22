@@ -18,6 +18,7 @@ We will be installing and updating the apt repository before installing any pack
 
 ```
 sudo apt-get update
+swapoff -a
 ```
 
 ### step 2
@@ -139,22 +140,36 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
+
+Use the command below to list the nodes 
+'''
+kubectl get nodes
+'''
 ### step 9
-we can now deploy pods using the following command:
+we need to install a network solution using the following command:
+This will help to manage the clusters network.
 
 ```
-sudo kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/ master/Documentation/kube-flannel.yml
+# Install Weave Net
+kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
 ```
 ```
-sudo kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/ master/Documentation/k8s-manifests/kube-flannel-rbac.yml
+#List the necessary dependency as they start running on the control plane
+kubectl get pods -n kube-system
 ```
 
 ### step 10
-To see all pods deployed, use the following command:
+To see all the nodes and show that master node is ready, run
 ```
-sudo kubectl get pods –all-namespaces
+kubectl get nodes
 ```
+### step 11
+The last step is to configure the worker nodes.
 
+Join the worker node to the master node/control plane from the 
+picture below which we got when we initialize kubeadm for the master mode earlier on
+
+![worker nodes join picture](  )
 # Note that i encountered the error below 
 ![image](kubeadm-init-error.PNG)
 and i debugged it with [This](https://forum.linuxfoundation.org/discussion/862825/kubeadm-init-error-cri-v1-runtime-api-is-not-implemented)
